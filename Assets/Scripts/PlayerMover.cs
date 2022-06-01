@@ -2,28 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(PlayerAnimator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerCollision))]
+[RequireComponent(typeof(PlayerParticles))] 
 public class PlayerMover : MonoBehaviour
 {
     //[SerializeField] private LayerMask _layerMask;
-    [SerializeField] private float _forwardVelocity;
+   // [SerializeField] private float _forwardVelocity;
     [SerializeField] private float _horisontalVelocity;
 
     private PlayerCollision _playerCollision;
+    private PlayerParticles _playerParticles;
     private float _maxDistant = 3f;
     private Vector3 _moveDirection;
     private bool _isRunning = false;
     private PlayerAnimator _playerAnimation;
     private Rigidbody2D _rigidbody2D;
     private bool _isFalling = false;
-    
+    private float _runDelay = 0.3f;
+    private float _startAnimationDelay = 0.4f;
 
     private void Awake()
     {
         _playerCollision = GetComponent<PlayerCollision>();
+        _playerParticles = GetComponent<PlayerParticles>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimator>();
     }
@@ -32,7 +37,7 @@ public class PlayerMover : MonoBehaviour
     private void Update()
     {
         //Debug.Log(_rigidbody2D.velocity.y);
-        if (_rigidbody2D.velocity.y < -5)
+        if (_rigidbody2D.velocity.y < -6)
         {
             Fall();
         }
@@ -47,6 +52,18 @@ public class PlayerMover : MonoBehaviour
 
     }
 
+    public void Run()
+    {
+        StartCoroutine(StartRun());
+    }
+
+    private IEnumerator StartRun()
+    {
+        yield return new WaitForSeconds(_startAnimationDelay);
+        _playerAnimation.StartRunAnimatoin();
+        yield return new WaitForSeconds(_runDelay);
+        _isRunning = true;
+    }
 
     private void Fall()
     {
@@ -63,22 +80,31 @@ public class PlayerMover : MonoBehaviour
         if(_isFalling == true)
         {
             _isFalling = false;
-            _isRunning = true;
+            StartCoroutine(StartRun());
+            //_isRunning = true;
+            //_playerAnimation.StartRunAnimatoin();
             _playerAnimation.EndFallDownAnimatoin();
         }
+    }
+    public void StopMoving()
+    {
+        _rigidbody2D.velocity = Vector2.zero;
+        _isRunning = false;
+        _playerAnimation.StartIdleAnimatoin();
     }
 
     private void MoveRight()
     {
         _rigidbody2D.velocity = new Vector2(_horisontalVelocity, _rigidbody2D.velocity.y);
-        _playerAnimation.StartRunAnimatoin();
+        _playerParticles.PlayMoveParticles();
     }
 
-    public void StopMoving()
+    public void Rotate()
     {
-        _isRunning = false;
-        _playerAnimation.StartIdleAnimatoin();
+        transform.DORotate(new Vector3(0, 180, 0), 1f);
     }
+
+
 }
 
         //if (_isRunning)

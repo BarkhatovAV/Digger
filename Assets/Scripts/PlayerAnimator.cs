@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PlayerEventHandler))]
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
@@ -8,10 +10,28 @@ public class PlayerAnimator : MonoBehaviour
     private string _animationEndFallDown = "FallDownEnd";
     private string _animatoinRun = "Run";
     private string _animatoinIdle = "Idle";
+    private string _animationDance = "Dance";
+    private PlayerEventHandler _playerEventHandler;
 
-    private void Start()
+    private void Awake()
     {
+        _playerEventHandler = GetComponent<PlayerEventHandler>();
         _animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        _playerEventHandler.PlayerFinished += OnFinished;
+    }
+
+    private void OnDisable()
+    {
+        _playerEventHandler.PlayerFinished -= OnFinished;
+    }
+
+    private void OnFinished()
+    {
+        _animator.SetTrigger(_animationDance);
     }
 
     public void StartFallDownAnimatoin()
@@ -28,12 +48,14 @@ public class PlayerAnimator : MonoBehaviour
 
     public void StartRunAnimatoin()
     {
-        _animator.SetTrigger(_animatoinRun);
+        //_animator.SetTrigger(_animatoinRun);
+        _animator.SetBool("RunBool", true);
     }
 
     public void StartIdleAnimatoin()
     {
-        _animator.SetTrigger(_animatoinIdle);
+        _animator.SetBool("RunBool", false);
+        //_animator.SetTrigger(_animatoinIdle);
     }
 
     //public void StartClimbAnimation()

@@ -7,11 +7,17 @@ using UnityEngine.Events;
 public abstract class OilStorage : MonoBehaviour
 {
     [SerializeField] private bool _isFull;
+    [SerializeField] protected float _fuelFillingTime;
 
+    public float FuelFillingTime => _fuelFillingTime;
+
+
+    
     public bool IsFull => _isFull;
 
-    public event UnityAction OilStorageFilled;
-    public event UnityAction OilStorageEmptied;
+    public event UnityAction<float> OilStorageFilled;
+    public event UnityAction<float> OilStorageEmptied;
+    public event UnityAction FuelFilled;
 
     public void PourOil(OilStorage other)
     {
@@ -20,22 +26,31 @@ public abstract class OilStorage : MonoBehaviour
             if (other.TryPourOutOil())
             {
                 _isFull = true;
-                OilStorageFilled?.Invoke();
+                OilStorageFilled?.Invoke(FuelFillingTime);
+                StartCoroutine(NotifyAboutFuelFilled());
             }
         }
     }
 
-    public bool TryPourOutOil()
+    protected bool TryPourOutOil()
     {
         if (_isFull == true)
         {
             _isFull = false;
-            OilStorageEmptied?.Invoke();
+            OilStorageEmptied?.Invoke(FuelFillingTime);
+            StartCoroutine(NotifyAboutFuelFilled());
             return true;
         }
         else
         {
             return false;
         }
+    }
+
+    protected IEnumerator NotifyAboutFuelFilled()
+    {
+        yield return new WaitForSeconds(FuelFillingTime);
+        FuelFilled?.Invoke();
+        StopCoroutine(NotifyAboutFuelFilled());
     }
 }

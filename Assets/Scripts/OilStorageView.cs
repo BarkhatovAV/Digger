@@ -10,8 +10,7 @@ public class OilStorageView : MonoBehaviour
 {
     [SerializeField] private LiquidVolume _liquidVolume;
     [SerializeField] private OilStorage _oilStorage;
-    [SerializeField] private float _fuelFillingTime;
-
+    
     private float _maxLiquidVolumeLevel = 1;
     private float _minLiquidVolumeLevel = 0;
     private float _currentTime;
@@ -36,37 +35,37 @@ public class OilStorageView : MonoBehaviour
         _oilStorage.OilStorageEmptied -= OnOilStorageEmptied;
     }
 
-    private void OnOilStorageEmptied()
+    private void OnOilStorageEmptied(float fuelFillingTime)
     {
         _liquidVolume.level = _minLiquidVolumeLevel;
         _currentTime = 0;
-        StartCoroutine(DecreaseOilLevel());
+        StartCoroutine(DecreaseOilLevel(fuelFillingTime));
     }
 
-    private void OnOilStorageFilled()
+    private void OnOilStorageFilled(float fuelFillingTime)
     {
         _liquidVolume.level = _maxLiquidVolumeLevel;
         _currentTime = 0;
-        StartCoroutine(IncreaseOilLevel());
+        StartCoroutine(IncreaseOilLevel(fuelFillingTime));
     }
 
-    private IEnumerator IncreaseOilLevel()
+    private IEnumerator IncreaseOilLevel(float fuelFillingTime)
     {
-        while (_currentTime < _fuelFillingTime)
+        while (_currentTime < fuelFillingTime)
         {
             _currentTime += Time.deltaTime;
-            float normalizedTime = _currentTime / _fuelFillingTime;
+            float normalizedTime = _currentTime / fuelFillingTime;
             _liquidVolume.level = Mathf.Lerp(_minLiquidVolumeLevel, _maxLiquidVolumeLevel, normalizedTime);
             yield return null;
         }
     }
 
-    private IEnumerator DecreaseOilLevel()
+    private IEnumerator DecreaseOilLevel(float fuelFillingTime)
     {
-        while (_currentTime < _fuelFillingTime)
+        while (_currentTime < fuelFillingTime)
         {
             _currentTime += Time.deltaTime;
-            float normalizedTime = _currentTime / _fuelFillingTime;
+            float normalizedTime = _currentTime / fuelFillingTime;
             _liquidVolume.level = Mathf.Lerp(_maxLiquidVolumeLevel, _minLiquidVolumeLevel, normalizedTime);
             yield return null;
         }
