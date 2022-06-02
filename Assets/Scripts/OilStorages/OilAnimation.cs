@@ -5,8 +5,8 @@ using UnityEngine;
 public class OilAnimation : MonoBehaviour
 {
     [SerializeField] private GameObject _oilTemplate;
+
     private float _timeBetweenOilsCreating = 0.15f;
-    private int _oilTemplatesCount = 20;
     private List<Vector3> _points = new List<Vector3>();
     private List<GameObject> _oilTemplates = new List<GameObject>();
     private float _timeBetweenPoints = 0.014f;
@@ -25,15 +25,6 @@ public class OilAnimation : MonoBehaviour
                 _points.Add(points[i]);
             }
         }
-
-
-        //for (int i = 0; i < _points.Count - 1; i++)
-        //{
-        //    Vector3 temporaryVector = _points[i];
-        //    temporaryVector.z = temporaryVector.z - 0.1f;
-        //    _points[i] = temporaryVector;
-        //}
-
         _isCreating = true;
         StartCoroutine(CreateOilTemlaits());
     }
@@ -49,8 +40,6 @@ public class OilAnimation : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator MoveOil(GameObject oil)
     {
         for (int i = 0; i < _points.Count - 1; i++)
@@ -59,14 +48,10 @@ public class OilAnimation : MonoBehaviour
             yield return new WaitForSeconds(_timeBetweenPoints);
         }
         Destroy(oil);
-        
     }
 
     public void StopOilAnimation()
     {
-        //StopAllCoroutines();
-        //StopCoroutine(MoveOil(_oilTemplate));
         _isCreating = false;
-        //StopCoroutine(CreateOilTemlaits());
     }
 }

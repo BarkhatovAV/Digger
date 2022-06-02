@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreAnimation : MonoBehaviour
@@ -12,7 +10,6 @@ public class ScoreAnimation : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        
     }
 
     private void OnEnable()

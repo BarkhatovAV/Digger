@@ -97,6 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57221925ed1cb4e4aacf27f406154674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _decreaseDuration: 0.8
+  _minScaleMultiplaier: 0.7
+  _maxScaleMultiplaier: 1.2
+  _decreaseDelay: 0.5
 --- !u!58 &2513140233200566165
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -128,7 +132,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

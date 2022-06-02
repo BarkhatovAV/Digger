@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalOilStorage : OilStorage
 {
-
     [SerializeField] private Transform _bezierPoint2;
     [SerializeField] private Transform _bezierPoint3;
 
@@ -17,6 +14,7 @@ public class FinalOilStorage : OilStorage
     {
         _collider = GetComponent<CircleCollider2D>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.TryGetComponent(out PlayerCollision player))

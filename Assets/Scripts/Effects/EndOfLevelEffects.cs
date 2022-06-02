@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EndOfLevel : MonoBehaviour
+public class EndOfLevelEffects : MonoBehaviour
 {
     [SerializeField] private PlayerEventHandler _playerEventHandler;
     [SerializeField] private ParticleSystem _confetiParticles;
@@ -31,9 +29,11 @@ public class EndOfLevel : MonoBehaviour
     {
         yield return new WaitForSeconds(_delayDollarParticles);
         _dollarParticles.Play();
+
         yield return new WaitForSeconds(_delayUsingExternalForces);
         var externalForces = _dollarParticles.externalForces;
         externalForces.enabled = true;
+
         yield return new WaitForSeconds(_delayConfetiParticles);
         _confetiParticles.Play();
     }

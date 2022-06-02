@@ -1,16 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerCollision))]
 public class PlayerOilStorage : OilStorage
 {
     private PlayerCollision _playerCollision;
-
-
-    //public event UnityAction FuelFilled;
 
     private void Awake()
     {
@@ -40,9 +33,5 @@ public class PlayerOilStorage : OilStorage
     {
         PourOil(naturalOilDeposit);
         StartCoroutine(NotifyAboutFuelFilled());
-
     }
-
-
-
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +7,7 @@ public class Score : MonoBehaviour
     [SerializeField] private PlayerEventHandler _playerEventHandler;
     [SerializeField] private float _increaseScoreDelay;
     [SerializeField] private float _increaseScoreDuration;
+
     private float _currentTime;
     private float _normalizedTime;
     private int _score;

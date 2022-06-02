@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalPanelAnimation : MonoBehaviour
@@ -13,7 +12,6 @@ public class FinalPanelAnimation : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-
     }
 
     private void OnEnable()

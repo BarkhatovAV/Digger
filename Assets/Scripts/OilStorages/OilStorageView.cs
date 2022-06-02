@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using LiquidVolumeFX;
-using System;
-using UnityEngine.Events;
-using DG.Tweening;
 
 public class OilStorageView : MonoBehaviour
 {
@@ -70,5 +66,4 @@ public class OilStorageView : MonoBehaviour
             yield return null;
         }
     }
-
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,9 +8,6 @@ public abstract class OilStorage : MonoBehaviour
     [SerializeField] protected float _fuelFillingTime;
 
     public float FuelFillingTime => _fuelFillingTime;
-
-
-    
     public bool IsFull => _isFull;
 
     public event UnityAction<float> OilStorageFilled;
