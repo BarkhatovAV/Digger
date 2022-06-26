@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(OilStorage))]
 [RequireComponent(typeof(Animator))]
 public class NaturalOilStorageAnimator : MonoBehaviour
 {
+    [SerializeField] private float _deadAnimationDelay;
+
     private OilStorage _oilStorage;
     private Animator _animator;
     private string _animationDead = "Dead";
@@ -26,6 +29,12 @@ public class NaturalOilStorageAnimator : MonoBehaviour
 
     private void OnFuelFilled()
     {
+        StartCoroutine(StartDeadAnimation());
+    }
+
+    private IEnumerator StartDeadAnimation()
+    {
+        yield return new WaitForSeconds(_deadAnimationDelay);
         _animator.SetTrigger(_animationDead);
     }
 }

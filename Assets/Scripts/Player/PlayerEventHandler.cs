@@ -68,6 +68,7 @@ public class PlayerEventHandler : MonoBehaviour
     {
         _playerMover.Land();
     }
+
     private void OnNaturalOilDepositCollised(NaturalOilStorage naturalOilStorage)
     {
         _playerBezier.DrowLine(naturalOilStorage.BezierPoint2, naturalOilStorage.BezierPoint3);

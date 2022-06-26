@@ -7,7 +7,7 @@ public class StoneSpawner : MonoBehaviour
     [SerializeField] private List<Stone> _stones = new List<Stone>();
     [SerializeField] private Collider _collider;
     [SerializeField] private Camera _camera;
-    [SerializeField] private float _radius;
+    [SerializeField] private float _spawnRadius;
 
     private float _maxDistance = 1000f;
     private float _fadeInStonesDalay = 0.1f;
@@ -22,21 +22,21 @@ public class StoneSpawner : MonoBehaviour
         {
             
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (_collider.Raycast(ray, out hit, _maxDistance))
+            RaycastHit raycastHit;
+            if (_collider.Raycast(ray, out raycastHit, _maxDistance))
             {
-                Vector3 randomPart = Random.insideUnitCircle * _radius;
-                _stonePosition = new Vector3(hit.point.x + randomPart.x, hit.point.y + randomPart.y + _offsetY, _stonePositionY);
+                Vector3 randomPart = Random.insideUnitCircle * _spawnRadius;
+                _stonePosition = new Vector3(raycastHit.point.x + randomPart.x, raycastHit.point.y + randomPart.y + _offsetY, _stonePositionY);
                 if (_canInstantiate)
                 {
                     _canInstantiate = false;
-                    StartCoroutine(FadeInStones());
+                    StartCoroutine(SpawnStones());
                 }
             }
         }
     }
 
-    private IEnumerator FadeInStones()
+    private IEnumerator SpawnStones()
     {
         for (int i = 0; i < _stones.Count; i++)
         {

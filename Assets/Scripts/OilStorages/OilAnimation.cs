@@ -6,15 +6,16 @@ public class OilAnimation : MonoBehaviour
 {
     [SerializeField] private GameObject _oilTemplate;
 
-    private float _timeBetweenOilsCreating = 0.15f;
+    private float _timeBetweenOilsCreating = 0.08f;
+    private float _speed = 5.5f;
+    private float _localScaleMultiplier = 0.965f;
     private List<Vector3> _points = new List<Vector3>();
     private List<GameObject> _oilTemplates = new List<GameObject>();
-    private float _timeBetweenPoints = 0.014f;
     private bool _isCreating = true;
 
     public void StartOilAnimation(List<Vector3> points)
     {
-        if(_points.Count > 0)
+        if (_points.Count > 0)
         {
             _points = points;
         }
@@ -31,23 +32,36 @@ public class OilAnimation : MonoBehaviour
 
     private IEnumerator CreateOilTemlaits()
     {
-        while(_isCreating)
+        while (_isCreating)
         {
             GameObject oil = Instantiate(_oilTemplate, transform.position, Quaternion.identity);
             _oilTemplates.Add(oil);
-            StartCoroutine(MoveOil(oil));
+            StartCoroutine(AnimateOil(oil));
             yield return new WaitForSeconds(_timeBetweenOilsCreating);
         }
     }
 
-    private IEnumerator MoveOil(GameObject oil)
+    private IEnumerator AnimateOil(GameObject oil)
     {
-        for (int i = 0; i < _points.Count - 1; i++)
+        int currantPoint = 1;
+        while (currantPoint < _points.Count)
         {
-            oil.transform.position = _points[i];
-            yield return new WaitForSeconds(_timeBetweenPoints);
+
+            Vector3 target = _points[currantPoint];
+            oil.transform.position = Vector3.MoveTowards(oil.transform.position, target, _speed);
+            if (oil.transform.position == target)
+            {
+                oil.transform.localScale *= _localScaleMultiplier;
+                currantPoint++;
+                if(currantPoint >= _points.Count)
+                {
+                    
+                }
+            }
+            yield return null;
         }
         Destroy(oil);
+
     }
 
     public void StopOilAnimation()

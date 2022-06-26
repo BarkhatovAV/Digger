@@ -7,11 +7,10 @@ public class BezierCurveBuilder : MonoBehaviour
     [SerializeField] private Transform _bezierPoint0;
     [SerializeField] private Transform _bezierPoint1;
     [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private int _segmentsNumber = 40;
+    [SerializeField] private int _segmentsNumber;
     [SerializeField] private OilAnimation _oilAnimation;
 
-    private float _timeBetweenNewLinePosition = 0.01f;
-    private float _removeDalay = 0.6f;
+    private float _removeDalay = 0.4f;
     private float _width = 0.33f;
     private int _currentSegmtntsNumber = 12;
     private int _startSegmtntsNumber;
@@ -45,7 +44,7 @@ public class BezierCurveBuilder : MonoBehaviour
         while (_lineRenderer.positionCount > 0)
         {
             _lineRenderer.positionCount--;
-            yield return new WaitForSeconds(_timeBetweenNewLinePosition);
+            yield return new WaitForFixedUpdate();
         }
         _bezierPoints.Clear();
     }
@@ -67,7 +66,7 @@ public class BezierCurveBuilder : MonoBehaviour
             {
                 _lineRenderer.SetPosition(i, _bezierPoints[i]);
             }
-            yield return new WaitForSeconds(_timeBetweenNewLinePosition);
+            yield return new WaitForFixedUpdate();
         }
         _currentSegmtntsNumber = _startSegmtntsNumber;
     }

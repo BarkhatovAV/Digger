@@ -10,7 +10,6 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _horisontalVelocity;
 
-    private PlayerCollision _playerCollision;
     private PlayerParticles _playerParticles;
     private PlayerAnimator _playerAnimation;
     private Rigidbody2D _rigidbody2D;
@@ -25,7 +24,6 @@ public class PlayerMover : MonoBehaviour
 
     private void Awake()
     {
-        _playerCollision = GetComponent<PlayerCollision>();
         _playerParticles = GetComponent<PlayerParticles>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimator>();
@@ -88,7 +86,7 @@ public class PlayerMover : MonoBehaviour
 
     private void MoveRight()
     {
-        _rigidbody2D.velocity = new Vector2(_horisontalVelocity, _rigidbody2D.velocity.y);
+        _rigidbody2D.velocity = new Vector2(_horisontalVelocity, _rigidbody2D.velocity.y /1.2f);
         _playerParticles.PlayMoveParticles();
     }
 
